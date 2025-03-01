@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 640
 //消失的井字棋1
 int index_x = 0;
 int index_y = 0;
@@ -195,7 +196,21 @@ FLAG:
 		goto FLAG;
 	}
 
-	initgraph(600, 600);
+	// 获取屏幕分辨率
+	const int screen_width = GetSystemMetrics(SM_CXSCREEN);
+	const int screen_height = GetSystemMetrics(SM_CYSCREEN);
+
+	// 计算窗口起始坐标
+	const int start_x = (screen_width - WINDOW_WIDTH) / 2;
+	const int start_y = (screen_height - WINDOW_HEIGHT) / 2;
+
+	// 创建窗口
+	HWND hwnd = initgraph(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	// 设置窗口位置
+	SetWindowPos(hwnd, NULL, start_x, start_y,
+		WINDOW_WIDTH, WINDOW_HEIGHT,
+		SWP_NOZORDER | SWP_NOACTIVATE);
 
 	ExMessage msg;
 
@@ -203,7 +218,7 @@ FLAG:
 	bool running = true;
 	while (running)
 	{
-		DWORD start_time = GetTickCount(); //获取一次循环的开头时间
+		int start_time = clock(); //获取一次循环的开头时间
 
 		while (peekmessage(&msg))
 		{
@@ -264,12 +279,12 @@ FLAG:
 			else { running = false; }
 		}
 
-		DWORD end_time = GetTickCount(); //获取一次循环的结尾时间
-		DWORD delta_time = end_time - start_time; //结尾-开头得出这一次循环所用的时间
+		int end_time = clock(); //获取一次循环的结尾时间
+		int delta_time = end_time - start_time; //结尾-开头得出这一次循环所用的时间
 
-		if (delta_time < 1000 / 60) //控制在60帧率以减少CPU占用
+		if (delta_time < 17) //控制在60帧率以减少CPU占用
 		{
-			Sleep(1000 / 60 - delta_time);
+			Sleep(17 - delta_time);
 		}
 	}
 	EndBatchDraw();
