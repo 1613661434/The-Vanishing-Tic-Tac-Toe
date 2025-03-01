@@ -177,7 +177,7 @@ int main(void)
 	//消失的井字棋2
 	//选择模式
 	system("color FC"); // 颜色改为亮红色
-	cout << "消失的井字棋 版本: 1.3" << endl;
+	cout << "消失的井字棋 版本: 1.4" << endl;
 	cout << "作者:ol木子李lo" << endl;
 	cout << "QQ:1613661434" << endl;
 	cout << "输入数字指定模式" << endl;
